@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_Fecha;
     private Button btn_Fecha, btn_VerMapa;
     private int dia, mes, anio;
-    private String fecha;
+    private String fechaElegida;
     private String permission;
     static final int PERMISSION_REQUEST_LOCATION = 1;
 
@@ -53,15 +53,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         if (dayOfMonth < 10 && monthOfYear < 10) {
-                            fecha = "0" + dayOfMonth + "-0" + (monthOfYear + 1) + "-" + year;
+                            fechaElegida = "0" + dayOfMonth + "-0" + (monthOfYear + 1) + "-" + year;
                         } else if (dayOfMonth < 10) {
-                            fecha = "0" + dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                            fechaElegida = "0" + dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         } else if (monthOfYear < 10) {
-                            fecha = "" + dayOfMonth + "-0" + (monthOfYear + 1) + "-" + year;
+                            fechaElegida = "" + dayOfMonth + "-0" + (monthOfYear + 1) + "-" + year;
                         } else {
-                            fecha = "" + dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                            fechaElegida = "" + dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         }
-                        et_Fecha.setText(fecha);
+                        et_Fecha.setText(fechaElegida);
                     }
                 }, anio, mes, dia);
                 datePickerDialog.show();
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentMapa = new Intent(MainActivity.this, MapsActivity.class);
-                intentMapa.putExtra("fecha", fecha);
+                intentMapa.putExtra("fechaElegida", fechaElegida);
                 startActivity(intentMapa);
             }
         });
