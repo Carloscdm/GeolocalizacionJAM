@@ -6,19 +6,18 @@ import com.db4o.ObjectSet;
 import com.db4o.config.AndroidSupport;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.query.Predicate;
-import com.db4o.query.Query;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Db4o {
+public class DB4O {
 
     private ObjectContainer objectContainer;
 
     public EmbeddedConfiguration getDb4oConfig() throws IOException {
         EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
         configuration.common().add(new AndroidSupport());
-        configuration.common().objectClass(TrackingObject.class).
+        configuration.common().objectClass(Ubicacion.class).
                 objectField("date").indexed(true);
         return configuration;
     }
@@ -32,44 +31,26 @@ public class Db4o {
         return objectContainer;
     }
 
-    public void addTracking(TrackingObject trackingObject, String ruta){
+    public void addTracking(Ubicacion trackingObject, String ruta){
         objectContainer = openDataBase(ruta);
-
         objectContainer.store(trackingObject);
         objectContainer.commit();
-
         objectContainer.close();
     }
 
-    public ArrayList<TrackingObject> getAllLocation(String ruta){
+    public ArrayList<Ubicacion> getLocationByDate(final String date, String ruta){
         objectContainer = openDataBase(ruta);
-        ArrayList<TrackingObject> result = new ArrayList<TrackingObject>();
+        ArrayList<Ubicacion> result = new ArrayList<Ubicacion>();
 
-        Query consulta = objectContainer.query();
-        consulta.constrain(TrackingObject.class);
-        ObjectSet<TrackingObject> localizaciones = consulta.execute();
-        for(TrackingObject localizacion : localizaciones){
-            result.add(localizacion);
-        }
-
-        objectContainer.close();
-
-        return result;
-    }
-
-    public ArrayList<TrackingObject> getLocationByDate(final String date, String ruta){
-        objectContainer = openDataBase(ruta);
-        ArrayList<TrackingObject> result = new ArrayList<TrackingObject>();
-
-        ObjectSet<TrackingObject> locs = objectContainer.query(
-                new Predicate<TrackingObject>() {
+        ObjectSet<Ubicacion> localizaciones = objectContainer.query(
+                new Predicate<Ubicacion>() {
                     @Override
-                    public boolean match(TrackingObject loc) {
-                        return loc.getDate().equals(date);
+                    public boolean match(Ubicacion loc) {
+                        return loc.getFecha().equals(date);
                     }
                 });
 
-        for(TrackingObject localizacion: locs){
+        for(Ubicacion localizacion: localizaciones){
             result.add(localizacion);
         }
 
@@ -77,7 +58,5 @@ public class Db4o {
 
         return result;
     }
-
-
 }
 

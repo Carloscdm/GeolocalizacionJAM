@@ -35,7 +35,7 @@
         </activity>
 
         <service
-            android:name=".TrackingService"
+            android:name=".Servicio"
             android:enabled="true" />
 
         <activity android:name=".MainActivity">

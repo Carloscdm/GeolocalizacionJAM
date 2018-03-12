@@ -7,14 +7,11 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Environment;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,7 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ruta = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/db.db4o";
         Toast.makeText(this, ruta, Toast.LENGTH_LONG).show();
 
-        serviceTracking = new Intent(this, TrackingService.class);
+        serviceTracking = new Intent(this, Servicio.class);
 
         this.askGPS();
     }
@@ -108,8 +105,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             moveCamera(new LatLng(last.getLatitude(), last.getLongitude()));
         }
 
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 25, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 25, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 1, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 1, this);
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -232,11 +229,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void run() {
                 super.run();
-                Db4o db4o = new Db4o();
-                //ArrayList<TrackingObject> result = db4o.getAllLocation(ruta);
-                ArrayList<TrackingObject> result = db4o.getLocationByDate(getIntent().getStringExtra("fechaElegida"), ruta);
-                for (TrackingObject value : result) {
-                    arrayUbicacion.add(value.getLatLng());
+                DB4O db4o = new DB4O();
+                //ArrayList<Ubicacion> result = db4o.getAllLocation(ruta);
+                ArrayList<Ubicacion> result = db4o.getLocationByDate(getIntent().getStringExtra("fechaElegida"), ruta);
+                for (Ubicacion value : result) {
+                    arrayUbicacion.add(value.getLatitudLongitud());
                 }
             }
         };

@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by jairo on 11/03/2018.
  */
 
-public class TrackingService extends Service {
+public class Servicio extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -24,7 +24,7 @@ public class TrackingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Intent i=new Intent(this, TrackingService.class);
+        Intent i=new Intent(this, Servicio.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         Notification.Builder constructorNotificacion = new Notification.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -44,9 +44,9 @@ public class TrackingService extends Service {
         String fecha = intent.getStringExtra("fecha");
         String ruta = intent.getStringExtra("ruta");
 
-        TrackingObject trackingObject = new TrackingObject(new LatLng(latitud, longitud), fecha);
+        Ubicacion trackingObject = new Ubicacion(new LatLng(latitud, longitud), fecha);
 
-        Db4o db4o = new Db4o();
+        DB4O db4o = new DB4O();
         db4o.addTracking(trackingObject, ruta);
 
         Toast.makeText(this, latitud + "\n" + longitud + "\n" + fecha, Toast.LENGTH_SHORT).show();

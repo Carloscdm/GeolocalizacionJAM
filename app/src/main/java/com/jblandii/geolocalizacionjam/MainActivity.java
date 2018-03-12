@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_REQUEST_LOCATION);
             } else {
                 // Ha denegado
-                Toast.makeText(this, "Please, enable the request permission", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Por favor, acepta los permisos.", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 i.addCategory(Intent.CATEGORY_DEFAULT);
                 i.setData(Uri.parse("package:" + getPackageName()));
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         // Concedió su permiso
                     } else {
                         // No concendió su permiso
-                        Toast.makeText(this, "You declined the access", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Has denegado el acceso.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
